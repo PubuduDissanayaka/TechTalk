@@ -38,7 +38,6 @@
     <!-- ============================================================== -->
     <section id="wrapper">
         <div class="login-register" style="background-image:url({{('https://picsum.photos/id/0/5616/3744/?blur=2')}});">
-{{-- hello --}}
 
             <div class="container">
                 <div class="row">
