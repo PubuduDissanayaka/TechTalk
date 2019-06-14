@@ -47,7 +47,11 @@ Route::resource('feedcomments', 'NewsFeedCommentController');
 
 Route::resource('comments', 'blogCommentController');
 
-Route::resource('friends', 'friendController');
+Route::resource('/friends', 'friendController');
+Route::post('/friends/remove', 'friendController@remove');
+Route::post('/request', 'friendController@request');
+
+
 
 Route::get('/chat/{id}', 'ChatController@show')->middleware('auth')->name('chat.show');
 
@@ -77,6 +81,8 @@ Route::post('/study/apply', 'StudyController@apply')->middleware('auth')->name('
 Route::resource('studycomments', 'StudyCommentController');
 
 Route::resource('studyrating', 'StudyRatingController');
+
+
 
 
 

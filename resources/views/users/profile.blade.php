@@ -30,22 +30,47 @@
         <div class="col-lg-4 col-xlg-3 col-md-5">
             <div class="card">
                 <div class="card-body">
-                    <center class="m-t-30">
+                    <center class="m-t-30" data-friendid="{{$user->id}}" >
                         @if (isset($user->avatar))
-                            <img src="{{ asset('storage/uploads/profiles/media/profile_pics/' . $user->avatar)}}" alt="USER" class="img-circle" width="150">
+                            <img src="{{ asset('storage/uploads/profiles/media/profile_pics/' . $user->avatar)}}" alt="USER" class="img-circle" width="150"><br>
                         {{-- <img src="../assets/images/users/5.jpg" class="img-circle" width="150"> --}}
                         @else
                             {{-- <img src="{{ asset('storage/uploads/avatars/avatar-6.png')}}"  alt="USER" width="150"> --}}
                         @endif
+                        <br>
 
                         @if ((Auth::user()->id) == $user->id)
                         <div class="div propicchange">
                             <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#propicModal" data-whatever="@mdo">Change Profile Picture</button>
                         </div><br>
                         @else
-                        <div>
-                            <button type="button" class="waves-light btn btn-block btn-info">Send Friend Request</button>
-                        </div><br>
+
+
+                        @if (Auth::check())
+                            @php
+                                $i = $friends->count();
+                                $c = 1;
+                            @endphp
+                            @foreach ($friends as $friend)
+                                @if ($friend->id == $user->id)
+                                    <div data-friendid="{{$user->id}}">
+                                        {{-- <button data-friendid="{{$user->id}}" type="button" class="waves-light btn btn-block btn-info friend">Send Friend Request*</button> --}}
+                                    </div>
+                                    @break
+                                @elseif($i == $c)
+                                    <button data-friendid="{{$user->id}}" type="button" class="waves-light btn btn-block btn-danger remove">Unfriend</button>
+                                @endif
+                                @php
+                                    $c++;
+                                @endphp
+                            @endforeach
+
+                            @if ($i == 0)
+                                <button data-friendid="{{$user->id}}" type="button" class="waves-light btn btn-block btn-info friend">Send Friend Request</button>
+                            @endif
+                        @endif
+
+                        <br>
                         <div>
                             <button type="button" id="#message" data-toggle="modal" data-whatever="@mdo" class="waves-light btn btn-block btn-warning">Send Message</button>
                         </div>

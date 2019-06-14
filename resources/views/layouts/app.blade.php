@@ -85,10 +85,41 @@
                         <!-- ============================================================== -->
                         <!-- Search -->
                         <!-- ============================================================== -->
-                        <li class="nav-item hidden-sm-down search-box">
+                        {{-- <li class="nav-item hidden-sm-down search-box">
                             <a class="nav-link hidden-sm-down text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
                             <form class="app-search">
-                                <input type="text" class="form-control" placeholder="Search & enter"> <a class="srh-btn"><i class="ti-close"></i></a> </form>
+                                <input type="text" class="form-control" placeholder="Search & enter">
+                                <a class="srh-btn"><i class="ti-close"></i></a>
+                            </form>
+                        </li> --}}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="ti-search"></i>
+                                <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+                            </a>
+                            <div class="dropdown-menu mailbox dropdown-menu-right scale-up" aria-labelledby="2">
+                                <ul>
+                                    <li>
+                                        <div class="drop-title">You have {{count(Auth::user()->friend1->where('confirmed', '=', false))}} friend requests</div>
+                                    </li>
+                                    <li>
+                                        <div class="message-center">
+                                            @foreach (Auth::user()->friend1->where('confirmed', '=', false) as $friend1)
+                                            <!-- Message -->
+                                            <a href="#" class="hello">
+                                                <div class="user-img"> <img src="{{asset('storage/uploads/profiles/media/profile_pics/' . $friend1->user1->avatar)}}" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
+                                                <div class="mail-contnet">
+                                                    <h5>{{$friend1->user1->name}} {{isset($friend1->user1->laset_name) ? $friend1->user1->laset_name : ""}}</h5>
+                                                    <div style="display: inline-block" data-userid="{{$friend1->user1->id}}">
+                                                        <button class="waves-light btn btn-primary btn-sm request">Accept</button>
+                                                        <button class="waves-light btn btn-danger btn-sm request">reject</button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            @endforeach
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                     </ul>
                     @endguest
@@ -99,6 +130,42 @@
 
                     @else
                     <ul class="navbar-nav my-lg-0">
+
+                        <!-- request -->
+                        <!-- ============================================================== -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-users"></i>
+                                    <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+                                </a>
+                                <div class="dropdown-menu mailbox dropdown-menu-right scale-up" aria-labelledby="2">
+                                    <ul>
+                                        <li>
+                                            <div class="drop-title">You have {{count(Auth::user()->friend1->where('confirmed', '=', false))}} friend requests</div>
+                                        </li>
+                                        <li>
+                                            <div class="message-center">
+                                                @foreach (Auth::user()->friend1->where('confirmed', '=', false) as $friend1)
+                                                <!-- Message -->
+                                                <a href="#" class="hello">
+                                                    <div class="user-img"> <img src="{{asset('storage/uploads/profiles/media/profile_pics/' . $friend1->user1->avatar)}}" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
+                                                    <div class="mail-contnet">
+                                                        <h5>{{$friend1->user1->name}} {{isset($friend1->user1->laset_name) ? $friend1->user1->laset_name : ""}}</h5>
+                                                        <div style="display: inline-block" data-userid="{{$friend1->user1->id}}">
+                                                            <button class="waves-light btn btn-primary btn-sm request">Accept</button>
+                                                            <button class="waves-light btn btn-danger btn-sm request">reject</button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                @endforeach
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                        <!-- ============================================================== -->
+                        <!-- End Request -->
+                        <!-- ============================================================== -->
 
                         <!-- Messages -->
                         <!-- ============================================================== -->

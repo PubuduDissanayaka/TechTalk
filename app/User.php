@@ -104,4 +104,14 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
     {
         return $this->hasMany('App\NewsFeedComment');
     }
+
+    public function friend()
+    {
+        return $this->hasMany('App\Friend','user_id');
+    }
+
+    public function friend1()
+    {
+        return $this->hasMany('App\Friend', 'friend_id');
+    }
 }

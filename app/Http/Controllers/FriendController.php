@@ -29,7 +29,10 @@ class FriendController extends Controller
      */
     public function index()
     {
-        $friends = Auth::user()->friends();
+
+        // dd($friend);
+        $friends = Auth::user()->friend1->where('confirmed', '=', true);
+        // dd($friends);
         return view('friends.index')->with('friends',$friends);
     }
 
@@ -51,7 +54,19 @@ class FriendController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request);
+        // $friend = Friend::all()->where('user_id', '=', Auth::user()->id)->where('friend_id', '=' , 23)->first();
+            $friend = new Friend;
+
+            $friend->user_id = Auth::user()->id;
+            $friend->friend_id = $request->friend_id;
+            // $friend->confirmed = 0;
+
+            $friend->save();
+
+            return [
+                'friend_id' => $request->friend_id
+            ];
     }
 
     /**
@@ -97,5 +112,37 @@ class FriendController extends Controller
     public function destroy(Friend $friend)
     {
         //
+    }
+
+    public function remove(Request $request)
+    {
+
+        $friend = Friend::all()->where('user_id', '=', Auth::user()->id)->where('friend_id', '=' , $request->friend_id)->first();
+        // dd($friend);
+        $friend->delete();
+
+        return [
+            'friend_id' => Auth::user()->id
+        ];
+    }
+
+    public function request(Request $request)
+    {
+       $user = Friend::all()->where('friend_id', '=' , Auth::user()->id)->where('user_id', '=', $request->user_id)->first();
+        if ($request->isRequest) {
+            $user->confirmed = true;
+
+            $user->save();
+            return [
+                'user_id' => $request->user_id,
+                'true' => true
+            ];
+        }
+
+        $user->delete();
+        return [
+            'user_id' => $request->user_id,
+            'true' => false
+        ];
     }
 }

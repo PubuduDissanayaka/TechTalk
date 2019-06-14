@@ -26,13 +26,13 @@
                                         <div class="card-title">
                                             <a href="#">
                                                 <h5>
-                                                    {{$friend->name}}
+                                                    {{$friend->user1->name}}
                                                 </h5>
                                             </a>
 
                                         </div>
-                                        <p class="card-text friend-card-text">{{$friend->email}}</p>
-                                        <a href="{{route('chat.show', $friend->id)}}" class="btn btn-outline-info">Send A message</a>
+                                        <p class="card-text friend-card-text">{{$friend->user1->email}}</p>
+                                        <a href="{{route('chat.show', $friend->user1->id)}}" class="btn btn-outline-info">Send A message</a>
                                     </div>
                                 </div>
                                 <br>

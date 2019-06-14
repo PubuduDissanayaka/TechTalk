@@ -62,6 +62,7 @@ class ProfileController extends Controller
     {
         $user = User::find($id);
         // dd($user);
+        // $friends = Auth::user()->friends();
 
         $userid = $user->id;
 
@@ -71,7 +72,7 @@ class ProfileController extends Controller
 
         // $feeds = $feeds->orderBy('id', 'DESC')-get();
 
-        // dd($user);
+        // dd($friends);
         // $allfeeds = DB::table('news_feeds')->where('user_id', '=', $user->id)->all();
 
         // $feeds = $allfeeds->filter(function($allfeeds, $userid) {
