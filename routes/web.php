@@ -81,8 +81,11 @@ Route::post('/study/apply', 'StudyController@apply')->middleware('auth')->name('
 Route::resource('studycomments', 'StudyCommentController');
 
 Route::resource('studyrating', 'StudyRatingController');
+Route::resource('userrating', 'UserRatingController');
 
+Route::get('/search', 'SearchController@index')->name('search.index');
+Route::post('/search/action', 'SearchController@action')->name('search.action');
 
-
+Route::resource('addskills', 'UserProSkillController');
 
 

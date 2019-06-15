@@ -55,5 +55,19 @@
     <!-- ============================================================== -->
     <script src="{{asset('kit/assets/plugins/styleswitcher/jQuery.style.switcher.js')}}"></script>
 {{-- end kit --}}
+    <script src="{{asset('kit/js/jquery.slimscroll.js')}}"></script>
+    <!-- Typehead Plugin JavaScript -->
+    <script src="{{asset('kit/assets/plugins/typeahead.js-master/dist/typeahead.bundle.min.js')}}"></script>
+    <script src="{{asset('kit/assets/plugins/typeahead.js-master/dist/typeahead-init.js')}}"></script>
+    <!-- ============================================================== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/i18n/en.js" integrity="sha256-UvxT3dsdsWXruh0jGLoomRxR6BoGxgN6DkhhPYu7e84=" crossorigin="anonymous"></script>
 
     <script src="{{asset('kit/assets/plugins/clockpicker/dist/jquery-clockpicker.min.js')}}" type="text/javascript"></script>
+
+
+<script>
+// In your Javascript (external .js resource or <script> tag)
+$(document).ready(function() {
+    $('.js-example-basic-single').select2();
+});
+</script>

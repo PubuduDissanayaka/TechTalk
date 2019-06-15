@@ -85,42 +85,27 @@
                         <!-- ============================================================== -->
                         <!-- Search -->
                         <!-- ============================================================== -->
-                        {{-- <li class="nav-item hidden-sm-down search-box">
+                        <li class="nav-item hidden-sm-down search-box">
                             <a class="nav-link hidden-sm-down text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
-                            <form class="app-search">
+                            {!! Form::open(['route' => 'search.action', 'data-parsley-validate'=> '', 'class' => 'app-search' , 'files'=> true]) !!}
+                                <div class="col-xs-12">
+                                    <input type="text" id="search" placeholder="Search for...." class="form-control{{ $errors->has('search') ? ' is-invalid' : '' }}" name="search" value="{{ old('search') }}" required autofocus>
+                                    <a class="srh-btn"><i class="ti-close"></i></a>
+                                    {{-- <span class="input-group-btn">
+                                        <button class="btn btn-primary btn-block waves-light waves-effect" type="submit">Search!</button>
+                                    </span> --}}
+                                        @if ($errors->has('search'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('search') }}</strong>
+                                            </span>
+                                        @endif
+                                </div>
+                            {!!Form::close()!!}
+                            {{-- <form class="app-search">
                                 <input type="text" class="form-control" placeholder="Search & enter">
-                                <a class="srh-btn"><i class="ti-close"></i></a>
-                            </form>
-                        </li> --}}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="ti-search"></i>
-                                <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
-                            </a>
-                            <div class="dropdown-menu mailbox dropdown-menu-right scale-up" aria-labelledby="2">
-                                <ul>
-                                    <li>
-                                        <div class="drop-title">You have {{count(Auth::user()->friend1->where('confirmed', '=', false))}} friend requests</div>
-                                    </li>
-                                    <li>
-                                        <div class="message-center">
-                                            @foreach (Auth::user()->friend1->where('confirmed', '=', false) as $friend1)
-                                            <!-- Message -->
-                                            <a href="#" class="hello">
-                                                <div class="user-img"> <img src="{{asset('storage/uploads/profiles/media/profile_pics/' . $friend1->user1->avatar)}}" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
-                                                <div class="mail-contnet">
-                                                    <h5>{{$friend1->user1->name}} {{isset($friend1->user1->laset_name) ? $friend1->user1->laset_name : ""}}</h5>
-                                                    <div style="display: inline-block" data-userid="{{$friend1->user1->id}}">
-                                                        <button class="waves-light btn btn-primary btn-sm request">Accept</button>
-                                                        <button class="waves-light btn btn-danger btn-sm request">reject</button>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            @endforeach
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
+                            </form> --}}
                         </li>
+
                     </ul>
                     @endguest
                     <!-- ============================================================== -->
@@ -269,7 +254,7 @@
                                                 @else
 
                                                 @endif
-                                                <p class="text-muted">{{(isset(Auth::User()->detail->designation) ? Auth::User()->detail->designation : "")}}</p>
+                                                {{-- <p class="text-muted">{{(isset(Auth::User()->detail->designation) ? Auth::User()->detail->designation : "")}}</p> --}}
                                                 <br>
                                                 <a href="/profile/{{isset(Auth::User()->id) ? Auth::User()->id : "not found"}}" class="btn btn-rounded waves-effect waves-light btn-danger btn-sm">View Profile</a></div>
                                         </div>
@@ -278,8 +263,8 @@
                                     </li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="/profile/{{isset(Auth::User()->id) ? Auth::User()->id : "not found"}}" class="waves-effect waves-light"><i class="ti-user"></i> My Profile</a></li>
-                                    <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
-                                    <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
+                                    <li><a href="/friends"><i class="fas fa-users"></i> My Friends</a></li>
+                                    <li><a href="/search"><i class="fas fa-search"></i> Search</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
                                     <li role="separator" class="divider"></li>

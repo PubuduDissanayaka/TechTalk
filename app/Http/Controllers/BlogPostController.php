@@ -42,6 +42,9 @@ class BlogPostController extends Controller
 
         $keyword = $request->get('search');
         $perPage = 10;
+        $users = User::all();
+
+        $blogcount = count($user->blogpost);
 
         if (!empty($keyword)) {
             $data = BlogPost::where('title', 'LIKE', "%$keyword%")
@@ -134,7 +137,7 @@ class BlogPostController extends Controller
     public function show($id)
     {
         $blogpost = BlogPost::find($id);
-        $comment = $blogpost->comments;
+        // $comment = $blogpost->comments;
         //$comment = DB::table('blog_comments')->where('post_id', '=', $blogpost->id)->orderBy('updated_at','desc')->get();
         $tags = Tag::all();
 
@@ -148,7 +151,7 @@ class BlogPostController extends Controller
         $cat = DB::table('catagories')->limit(5)->get();
 
         $popular = BlogPost::orderBy('updated_at','desc')->limit(5)->get();
-        return view('blogposts.show')->with('blogpost',$blogpost)->with('tags', $tags)->with('cat', $cat)->with('popular',$popular)->with('comment',$comment);
+        return view('blogposts.show')->with('blogpost',$blogpost)->with('tags', $tags)->with('cat', $cat)->with('popular',$popular);
         // dd($count);
 
     }

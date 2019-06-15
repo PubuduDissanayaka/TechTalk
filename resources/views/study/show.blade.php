@@ -191,13 +191,13 @@ $(document).on('ready', function(){
                                             </div>
                                             <div class="card-body ratecardbody">
                                                 <div class="row">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-6">
                                                         <div class="display-4 d-flex justify-content-center clearfix">{{round($avarage,1)}}</div>
                                                         <p class="studycountusrestar"><i class="fa fa-user-o" aria-hidden="true"></i> {{count($study->studyratings)}}</p>
                                                         <input id="show" name="values" class="rating clearfix rating-loading d-inline" value="{{round($avarage,1)}}" data-min="0" data-max="5" data-step="0.5" readonly data-size="sm">
                                                     </div>
 
-                                                    <div class="col-md-8">
+                                                    <div class="col-md-6">
                                                         <div class="progress">
                                                             <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{$fivepresentage}}%" aria-valuenow="{{$fivepresentage}}" aria-valuemin="0" aria-valuemax="100"></div>
                                                         </div><br>

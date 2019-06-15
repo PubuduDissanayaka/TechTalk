@@ -104,8 +104,8 @@
                                     <hr>
                                 <h4><strong>{{$blogpost->comments->count()}} Comments</strong></h4>
                                 {{-- {!!$blogpost->find($blogpost->id)->comments[id]!!} --}}
-                                @if (count($comment)>0)
-                                @foreach ($comment as $com)
+                                @if (count($blogpost->comments)>0)
+                                @foreach ($blogpost->comments as $com)
                                         <div class="comment-list">
                                             <div class="single-comment justify-content-between d-flex">
                                                 <div class="user justify-content-between d-flex">

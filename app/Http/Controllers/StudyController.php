@@ -46,10 +46,10 @@ class StudyController extends Controller
                 ->orWhere('user_id', 'LIKE', "%$keyword%")
                 ->orWhere('document', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
+                // dd($study);
         } else {
             $study = Study::latest()->paginate($perPage);
         }
-
         return view('study.index', compact('study'));
     }
 
@@ -159,7 +159,7 @@ class StudyController extends Controller
         });
 
         if ($count == 0) {
-            $count == 1;
+            $count += 1;
         } else {
             $count = $count;
         }

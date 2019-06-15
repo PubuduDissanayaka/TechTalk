@@ -53,11 +53,13 @@
     <link href="{{asset('kit/css/style.css')}}" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="{{asset('kit/css/colors/purple-dark.css')}}" id="theme" rel="stylesheet">
+    <link href="{{asset('kit/assets/plugins/typeahead.js-master/dist/typehead-min.css')}}" rel="stylesheet">
 {{-- end kit --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css">
 
 
     <link rel="stylesheet" type="text/css" href="{{asset('kit/assets/plugins/clockpicker/dist/jquery-clockpicker.min.css')}}" />
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.css" integrity="sha256-cxYyFTq8AlfZjXRMeAy8KPHpmNVSpUNhnxQwNfUT0Lo=" crossorigin="anonymous" />
 
     <main>
         @yield('css')

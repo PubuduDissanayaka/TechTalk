@@ -96,7 +96,7 @@
                                                                     @endif
                                                                 </div><br>
                                                                 <div class="like-comm">
-                                                                    <a href="javascript:void(0)" class="link m-r-10"><i class="fa fa-heart text-danger"></i> 5 Love</a>
+                                                                    <a href="javascript:void(0)" class="link m-r-10 likebtn"><i class="fa fa-heart text-danger"></i> 5 Love</a>
                                                                     <button type="button" class="comment-btn btn btn-pimaryr m-r-10">2 comment</button>
                                                                  </div>
                                                             </div>

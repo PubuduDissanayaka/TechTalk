@@ -47,7 +47,7 @@ class NotifyNewEvent extends Notification implements ShouldQueue
                     ->from('notify@techtalk.com', 'Notify')
                     ->subject('TechTalk New Event')
                     ->line($eventuser . ' has published a new Event on TechTalk.. ')
-                    ->action('Read TechTalk Blog Post', url('http://127.0.0.1:8000/events/'. $id))
+                    ->action('Read TechTalk Event', url('http://127.0.0.1:8000/events/'. $id))
                     ->line('Thank you for using TechTalk!');
     }
 

@@ -11,7 +11,9 @@ use Image;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use App\NewsFeed;
+use App\Skill;
 use Illuminate\Support\Facades\DB;
+use UserProSkill;
 
 class ProfileController extends Controller
 {
@@ -60,9 +62,56 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
-        // dd($user);
-        // $friends = Auth::user()->friends();
+        $user = User::findOrFail($id);
+        $all = $user->stars;
+        // $allvalues = DB::table('study_ratings')->where('study_id','=', $study->id)->get();
+        $count =  $all->count();
+        if ($count == 0) {
+            $count += 1;
+        } else {
+            $count = $count;
+        }
+        $avarage = $all->pipe(function($all) {
+            return $all->avg('value');
+        });
+
+
+
+        $five = $all->filter(function($all) {
+                return $all->value == 5;
+        });
+        $numoffive = count($five);
+        $fivepresentage = ($numoffive/$count) * 100;
+        // dd($count);
+
+        $four = $all->filter(function($all) {
+                return $all->value == 4;
+        });
+        $numoffour = count($four);
+        $fourpresentage = ($numoffour/$count) * 100;
+
+        $three = $all->filter(function($all) {
+                return $all->value == 3;
+        });
+        $numofthree = count($three);
+        $threepresentage = ($numofthree/$count) * 100;
+
+        $two = $all->filter(function($all) {
+                return $all->value == 2;
+        });
+        $numoftwo = count($two);
+        $twopresentage = ($numoftwo/$count) * 100;
+
+        $one = $all->filter(function($all) {
+                return $all->value == 1;
+        });
+        $numofone = count($one);
+        $onepresentage = ($numofone/$count) * 100;
+        // dd($fivepresentage);
+
+        // return view('study.show', compact('study' , 'avarage', 'fivepresentage', 'fourpresentage', 'threepresentage' , 'twopresentage', 'onepresentage'));
+
+
 
         $userid = $user->id;
 
@@ -70,18 +119,20 @@ class ProfileController extends Controller
 
         $feeds = $user->feeds;
 
-        // $feeds = $feeds->orderBy('id', 'DESC')-get();
+        $skills = Skill::all();
 
-        // dd($friends);
-        // $allfeeds = DB::table('news_feeds')->where('user_id', '=', $user->id)->all();
+        $own = $user->skills;
 
-        // $feeds = $allfeeds->filter(function($allfeeds, $userid) {
-        //         // $user = User::find($id)->first();
-        //         ($allfeeds->user_id == $userid)-all();
-        // });
+        // dd($own);
 
+        // if (isset($own)) {
+        //     foreach($own as $o){
+        //         return $o;
+        //     };
+        //     // $userskills = Skill::where('id', '=',  );
+        // };
 
-        return view('users.profile', compact('friends','user', 'feeds'));
+        return view('users.profile', compact('friends','skills','user', 'feeds' , 'avarage', 'fivepresentage', 'fourpresentage', 'threepresentage' , 'twopresentage', 'onepresentage'));
     }
 
     /**

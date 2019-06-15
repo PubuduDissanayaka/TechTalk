@@ -4,6 +4,10 @@
 <style>
 
 </style>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.js"></script>
+<link href="/css/star/star-rating.min.css" media="all" rel="stylesheet" type="text/css"/>
+<script src="/js/star/star-rating.js" type="text/javascript"></script>
+<link href="/css/star/themes/krajee-svg/theme.css" media="all" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="{{asset('kit/assets/plugins/dropify/dist/css/dropify.min.css')}}">
 @endsection
 
@@ -32,10 +36,10 @@
                 <div class="card-body">
                     <center class="m-t-30" data-friendid="{{$user->id}}" >
                         @if (isset($user->avatar))
+                            {{-- <img src="{{ asset('storage/uploads/avatars/default.png')}}"  alt="USER" width="150"> --}}
                             <img src="{{ asset('storage/uploads/profiles/media/profile_pics/' . $user->avatar)}}" alt="USER" class="img-circle" width="150"><br>
                         {{-- <img src="../assets/images/users/5.jpg" class="img-circle" width="150"> --}}
                         @else
-                            {{-- <img src="{{ asset('storage/uploads/avatars/avatar-6.png')}}"  alt="USER" width="150"> --}}
                         @endif
                         <br>
 
@@ -89,16 +93,15 @@
                     <h6>{{{$user->email}}}</h6>
                     @if (($user->role_id)== 4 || ($user->role_id)== 5)
                         <small class="text-muted p-t-30 db">Phone</small>
-                        <h6>+91 654 784 547</h6> <small class="text-muted p-t-30 db">Address</small>
-                        <h6>71 Pilgrim Avenue Chevy Chase, MD 20815</h6>
-                        <div class="map-box">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470029.1604841957!2d72.29955005258641!3d23.019996818380896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C+Gujarat!5e0!3m2!1sen!2sin!4v1493204785508" width="100%" height="150" frameborder="0" style="border:0" allowfullscreen=""></iframe>
-                        </div>
-                        <small class="text-muted p-t-30 db">Social Profile</small>
+                        <h6>{{$user->detail->tel}}</h6>
                     @else
 
                     @endif
                     <br>
+                    @if ((($user->detail->website) == "" || ($user->detail->blog)=="" || ($user->detail->github)==""))
+                    @else
+                        <small class="text-muted p-t-30 db">Social Profile</small>
+                    @endif
                     @isset($user->detail->website)
                         <a href="{{$user->detail->website}}" target="_blank" class="btn btn-circle btn-primary"><i class="fas fa-globe"></i></a>
                     @endisset
@@ -109,9 +112,84 @@
                         <a href="{{$user->detail->github}}" target="_blank" class="btn btn-circle btn-info"><i class="fab fa-github"></i></a>
                     @endisset
                 </div>
+                <hr>
+
+                {{-- star rating form --}}
+                <div class="col-md-12">
+                    {!! Form::open(['route' => 'userrating.store', 'data-parsley-validate'=> '', 'files'=> true]) !!}
+                        <input id="study" name="values" required class="rating rating-loading" value="" data-min="0" data-max="5" data-step="1" data-size="lg">
+                        <br>
+                        <div class="col-md-9">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input id="customRadioInline1" type="radio" name="star_status" value="positive" class="custom-control-input">
+                                <label for="customRadioInline1" class="custom-control-label">Positive</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input id="customRadioInline2" type="radio" name="star_status" value="negative" class="custom-control-input">
+                                <label for="customRadioInline2" class="custom-control-label">Negative</label>
+                            </div>
+                        </div>
+                        <textarea class="form-control" name="feedback" id=""rows="4"></textarea>
+                        <br>
+                        <input type="text" hidden required value="{{Auth::user()->id}}" name="rating_user_id">
+                        <input type="text" hidden required value="{{$user->id}}" name="user_id">
+                        <button type="submit" class="btn btn-warning btn-block btn-sm">Submit</button><br>
+                        <input type="reset" value="Clear" class="btn btn-block btn-danger btn-sm">
+                    {!! Form::close() !!}
+                </div><br>
+                {{-- end star rating form --}}
             </div>
         </div>
+
         <div class="col-lg-8 col-xlg-9 col-md-7">
+                <div class="card card-outline-success">
+                    <div class="card-header">
+
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="display-4 d-flex justify-content-center clearfix">{{round($avarage,1)}}</div>
+                                <p class="studycountusrestar"><i class="fa fa-user-o" aria-hidden="true"></i> {{count($user->stars)}}</p>
+                                <input id="show" name="values" class="rating clearfix rating-loading d-inline" value="{{round($avarage,1)}}" data-min="0" data-max="5" data-step="0.5" readonly data-size="sm">
+                            </div>
+
+                            <div class="col-md-8">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{$fivepresentage}}%" aria-valuenow="{{$fivepresentage}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div><br>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" style="width: {{$fourpresentage}}%" aria-valuenow="{{$fourpresentage}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div><br>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: {{$threepresentage}}%" aria-valuenow="{{$threepresentage}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div><br>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: {{$twopresentage}}%" aria-valuenow="{{$twopresentage}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div><br>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: {{$onepresentage}}%" aria-valuenow="{{$onepresentage}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div><br>
+                            </div>
+
+                        </div>
+                        {{-- add skills --}}
+                        @if (((Auth::user()->id)== $user->id) && (($user->id == 3 || $user->id) == 1 || $user->id) == 2))
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addskills">
+                                Add Professional Skills
+                            </button>
+                        @endif
+                            <br><br>
+                        @forelse ($user->skills as $item)
+                            <div class="profile-img" style="display:inline-block">
+                                <img src="{{ asset('storage/uploads/skill_badges/' . $item->icon)}}" width="108px" alt="USER" class="profile-pic">
+                            </div>
+                        @empty
+
+                        @endforelse
+
+                    </div>
+                </div>
             @if ((Auth::user()->id)== $user->id)
                 <div class="card card-outline-primary">
                     <div class="card-header">
@@ -425,6 +503,53 @@
   </div>
 </div>
 {{-- end message model --}}
+
+
+{{-- add skills --}}
+<div class="modal fade" id="addskills" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Professional Skills</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {!! Form::open(['route' => 'addskills.store', 'data-parsley-validate'=> '', 'files'=> true]) !!}
+            <div class="row">
+                <div class="col md-12">
+                    <div class="form-group">
+                        <label for="skills">Skills</label>
+                        <select id="skills" class="custom-select" name="skill" required>
+                            <option selected>Select from here...</option>
+                            @foreach ($skills as $skill)
+                                <option value="{{$skill->id}}">{{$skill->name}}</option>
+                            @endforeach
+                            {{-- <option value="">2</option> --}}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="institute">Institute name:</label>
+                        <input id="institute" class="form-control" type="text" name="institute">
+                    </div>
+                    <div class="form-group">
+                        <label for="year">Year:</label>
+                        <input id="year" required placeholder="YYYY" class="form-control" name="year" type="text">
+                    </div>
+                    <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Add Skill</button>
+            </div>
+        {!! Form::close() !!}
+      </div>
+    </div>
+  </div>
+</div>
+{{-- end add skills --}}
 </section>
 </div>
 
@@ -473,6 +598,16 @@ $(document).ready(function(){
 
 
 
+});
+</script>
+<script>
+$(document).on('ready', function(){
+    $('#study').rating();
+    }
+});
+$(document).on('ready', function(){
+    $('#show').rating();
+    }
 });
 </script>
 @endsection
