@@ -52,7 +52,11 @@ class VacancyController extends Controller
      */
     public function create()
     {
-        return view('vacancy.create');
+        if (Auth::user()->role_id == 1 || Auth::user()->role_id == 3 || Auth::user()->role_id == 5) {
+            return view('vacancy.create');
+        }else {
+            return redirect()->back();
+        }
     }
 
     /**
@@ -64,7 +68,8 @@ class VacancyController extends Controller
      */
     public function store(Request $request)
     {
-
+        if (Auth::user()->role_id == 1 || Auth::user()->role_id == 3 || Auth::user()->role_id == 5) {
+            # code...
         // validate data
         $this -> validate($request, array(
             'title' => 'required|max:255',
@@ -119,6 +124,9 @@ class VacancyController extends Controller
         // redirect
         toastr()->success('Job Vacancy Published Successfully!');
         return redirect()->route('vacancy.show',$vac->id);
+        }else{
+            return redirect()->back();
+        }
     }
 
     /**
@@ -144,9 +152,14 @@ class VacancyController extends Controller
      */
     public function edit($id)
     {
-        $vacancy = Vacancy::findOrFail($id);
+        if (Auth::user()->id == 1 || Auth::user()->id == 3 || Auth::user()->id == 5) {
+            # code...
+            $vacancy = Vacancy::findOrFail($id);
+            return view('vacancy.edit', compact('vacancy'));
+        }else{
+            return redirect()->back();
+        }
 
-        return view('vacancy.edit', compact('vacancy'));
     }
 
     /**
@@ -159,7 +172,8 @@ class VacancyController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        if (Auth::user()->id == $request->user_id) {
+            # code...
         // validate data
         $this -> validate($request, array(
             'title' => 'required|max:255',
@@ -205,6 +219,9 @@ class VacancyController extends Controller
 
         toastr()->success('Job Vacancy Updated Successfully!');
         return redirect()->route('vacancy.show',$vac->id);
+        }else{
+            return redirect()->back();
+        }
     }
 
     /**

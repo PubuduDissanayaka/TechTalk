@@ -15,4 +15,9 @@ class NewsFeed extends Model
     {
         return $this->hasMany('App\NewsFeedComment', 'feed_id');
     }
+
+    public function likes()
+    {
+        return $this->hasMany('App\NewsFeedLike');
+    }
 }

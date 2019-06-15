@@ -138,6 +138,7 @@ tinymce.init({
                         </div>
                     </div>
                 </div>
+                <input type="hidden" name="user_id" value="{{$event->user->id}}">
                 {!! Form::close() !!}
 
         </section>

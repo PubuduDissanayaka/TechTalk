@@ -7,10 +7,10 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NotyfyUserRatingDB extends Notification
+class MsgNotifyDB extends Notification
 {
     use Queueable;
-    public $userRating;
+    public $chat;
 
     /**
      * Create a new notification instance.
@@ -19,7 +19,7 @@ class NotyfyUserRatingDB extends Notification
      */
     public function __construct()
     {
-        $this->$userRating = $userRating;
+        $this->chat = $chat;
     }
 
     /**
@@ -40,23 +40,25 @@ class NotyfyUserRatingDB extends Notification
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
 
+
     /**
      * Get the array representation of the notification.
      *
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toDatabase($notifiable)
+    public function toArray($notifiable)
     {
 
-        // $user = User::find($this->comment->user_id);
-        // return [
-        //     'data' => $this->comment,
-        //     'url' => 'http://localhost:8000/study/' . $this->comment->study_id,
-        //     'message' => "New comment on your Study Plan",
-        //     'user' => $user,
-        //     'title' => 'New Comment',
-        //     'time' => $this->comment->created_at->diffForHumans()
-        // ];
+        $user = User::find($this->chat->friend_id);
+
+        return [
+            'data' => $this->chat,
+            'url' => 'http://localhost:8000/chat/' . $this->chat->friend_id,
+            'message' => "New message received",
+            'user' => $user,
+            'title' => 'New Comment',
+            'time' => $this->chat->created_at->diffForHumans()
+        ];
     }
 }

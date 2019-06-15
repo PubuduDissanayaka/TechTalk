@@ -75,9 +75,9 @@
                         @endif
 
                         <br>
-                        <div>
-                            <button type="button" id="#message" data-toggle="modal" data-whatever="@mdo" class="waves-light btn btn-block btn-warning">Send Message</button>
-                        </div>
+                        {{-- <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#message">
+                            Send a Message
+                        </button> --}}
                         @endif
                         <h4 class="card-title m-t-10">{{$user->name}} {{isset($user->laset_name) ? $user->laset_name : ""}}</h4>
                         <h6 class="card-subtitle">{{isset($user->detail->designation) ? $user->detail->designation : "Your Designation"}}</h6>
@@ -98,10 +98,10 @@
 
                     @endif
                     <br>
-                    @if ((($user->detail->website) == "" || ($user->detail->blog)=="" || ($user->detail->github)==""))
-                    @else
+                    {{-- @if ((($user->detail->website) == "" || ($user->detail->blog)=="" || ($user->detail->github)=="") =="")
                         <small class="text-muted p-t-30 db">Social Profile</small>
-                    @endif
+                    @else
+                    @endif --}}
                     @isset($user->detail->website)
                         <a href="{{$user->detail->website}}" target="_blank" class="btn btn-circle btn-primary"><i class="fas fa-globe"></i></a>
                     @endisset
@@ -485,7 +485,7 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-            {!! Form::open(['route' => 'chat.send', 'data-parsley-validate'=> '', 'files'=> true]) !!}
+            {!! Form::open(['route' => 'sendmessage.store', 'data-parsley-validate'=> '', 'files'=> true]) !!}
             <div class="row">
                 <div class="col md-12">
                     <div class="form-group">
@@ -494,6 +494,7 @@
                         <input type="text" hidden name="user_id" value="{{Auth::user()->id}}" required>
                         <textarea id="message" required class="form-control" name="chat" rows="3"></textarea>
                     </div>
+                    <input type="submit" class="btn btn-block btn-success waves-light" value="Send Message">
                 </div>
             </div>
             {!! Form::close() !!}

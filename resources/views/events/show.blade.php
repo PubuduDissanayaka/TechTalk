@@ -29,32 +29,35 @@
                             <div class="row">
                                 <div class="col-sm-8">
                                     <p class="eventorg">hosted by : {{$event->user->name}}</p>
-                                    <p class="eventorg">From : </p>
+                                    {{-- <p class="eventorg">From : </p> --}}
                                     <br><br>
-                                    <div class="block">
+                                    @if (Auth::user()->id == $event->user->id)
 
-                                        <a href="/events/{{$event->id}}/edit" class="btn btn-success">Edit Event</a>
+                                        <div class="block">
 
-                                        {{Form::open(['route'=>['events.destroy', $event->id],'method'=>'DELETE', 'class'=>'inline'])}}
-                                        <br>
-                                        <button type="submit"  class="btn btn-danger"><i class="fa fa-remove"></i> Delete Event</button>
-                                        {!! Form::close() !!}
-                                    </div>
+                                            <a href="/events/{{$event->id}}/edit" class="btn btn-success">Edit Event</a>
+
+                                            {{Form::open(['route'=>['events.destroy', $event->id],'method'=>'DELETE', 'class'=>'inline'])}}
+                                            <br>
+                                            <button type="submit"  class="btn btn-danger"><i class="fa fa-remove"></i> Delete Event</button>
+                                            {!! Form::close() !!}
+                                        </div>
+                                    @endif
                                     <br><br>
                                 </div>
                                 <div class="col-sm-4">
                                     <table class="table eventtable">
-                                        <tbody>
+                                        <tbody style="color:white">
                                             <tr>
-                                                <td><h1><i class="far fa-calendar-alt"></i></h1></td>
+                                                <td><h1><i style="color:white" class="far fa-calendar-alt"></i></h1></td>
                                                 <td><p class="lead">{{date('F j, Y',strtotime($event->date))}}</p></td>
                                             </tr>
                                             <tr>
-                                                <td><h1><i class="far fa-clock"></i></h1></td>
+                                                <td><h1><i style="color:white" class="far fa-clock"></i></h1></td>
                                                 <td><p class="lead"><i class="fas fa-at"></i> {{date('g:i A',strtotime($event->start))}} To <span>{{date('g:i A',strtotime($event->end))}}</span></p></td>
                                             </tr>
                                             <tr>
-                                                <td><h1><i class="fas fa-map-marker-alt"></i></h1></td>
+                                                <td><h1><i style="color:white" class="fas fa-map-marker-alt"></i></h1></td>
                                                 <td><p class="lead">{{$event->address}}</td>
                                             </tr>
                                         </tbody>
@@ -117,9 +120,9 @@
                                                             </div>
 
                                                         </div>
-                                                        <div class="reply-btn">
+                                                        {{-- <div class="reply-btn">
                                                             <a href="" class="btn-reply text-uppercase">reply</a>
-                                                        </div>
+                                                        </div> --}}
                                                     </div>
                                                     <hr>
                                                 </div>
@@ -132,9 +135,9 @@
 
                             </div>
                             <div class="col-sm-4">
-                                <p class="lead">Members</p>
+                                <p class="lead">Advertiesments</p>
                                 <ul class="list-group">
-                                    <li class="list-group-item list-group-item-action">one</li>
+                                    <li class="list-group-item list-group-item-action">Ads</li>
                                 </ul>
                             </div>
                         </div>

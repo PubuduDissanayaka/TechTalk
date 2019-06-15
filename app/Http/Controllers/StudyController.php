@@ -60,7 +60,9 @@ class StudyController extends Controller
      */
     public function create()
     {
-        return view('study.create');
+        if (Auth::user()->role_id == 1 || Auth::user()->role_id == 5) {
+            return view('study.create');
+        }
     }
 
     /**
@@ -72,6 +74,7 @@ class StudyController extends Controller
      */
     public function store(Request $request)
     {
+        if (Auth::user()->role_id == 1 || Auth::user()->role_id == 5) {
         // validate data
         $this -> validate($request, array(
             'name' => 'required|max:255',
@@ -139,6 +142,9 @@ class StudyController extends Controller
         // redirect
         toastr()->success('Study Programme Published Successfully!');
         return redirect()->route('study.show',$study->id);
+        }else{
+            return redirect()->back();
+        }
     }
 
     /**
@@ -223,7 +229,8 @@ class StudyController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        if (Auth::user()->id == $request->user_id) {
+            # code...
         // validate data
         $this -> validate($request, array(
             'name' => 'required|max:255',
@@ -286,6 +293,9 @@ class StudyController extends Controller
 
         toastr()->success('Study Programme Updated Successfully!');
         return redirect()->route('study.show',$study->id);
+        }else{
+            return redirect()->back();
+        }
     }
 
     /**

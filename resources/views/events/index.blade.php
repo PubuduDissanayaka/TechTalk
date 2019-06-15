@@ -26,10 +26,11 @@
             <section class="jumbotron eventindex text-center">
                 <div class="container">
                     <p class="jumbotron-heading eventheadtitle">Bringing the world together through live experiences</p>
-                    <p class="lead eventheaddes">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+                    <p class="lead eventheaddes">Organize an Event or Deliver a Speech and Get Rated.Organize an Event or Deliver a Speech and Get Rated.</p>
                     <p>
-                        <a href="/events/create" class="btn btn-primary my-2 lead">Create an Event</a>
-                        <a href="#" class="btn btn-secondary my-2 lead">Contact Customer Care</a>
+                        @if (Auth::user()->id == 1 || Auth::user()->id == 3 || Auth::user()->id == 5)
+                            <a href="/events/create" class="btn btn-primary my-2 lead">Create an Event</a>
+                        @endif
                     </p>
                 </div>
             </section>

@@ -7,10 +7,10 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NotyfyUserRatingDB extends Notification
+class MsgNotify extends Notification implements ShouldQueue
 {
     use Queueable;
-    public $userRating;
+    public $chat;
 
     /**
      * Create a new notification instance.
@@ -19,7 +19,7 @@ class NotyfyUserRatingDB extends Notification
      */
     public function __construct()
     {
-        $this->$userRating = $userRating;
+        $this->chat = $chat;
     }
 
     /**
@@ -30,7 +30,7 @@ class NotyfyUserRatingDB extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['mail'];
     }
 
     /**
@@ -39,6 +39,17 @@ class NotyfyUserRatingDB extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
+    public function toMail($notifiable)
+    {
+        $user = $this->chat->user_id;
+        // $userid = $this->userRating->user_id;
+        return (new MailMessage)
+                    ->from('notify@techtalk.com', 'Notify')
+                    ->subject('New Rating Notification')
+                    ->line('New Message on TechTalk.. ')
+                    ->action('See your messages', url('http://127.0.0.1:8000/chat/'. $user))
+                    ->line('Thank you for using TechTalk!');
+    }
 
     /**
      * Get the array representation of the notification.
@@ -46,17 +57,10 @@ class NotyfyUserRatingDB extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toDatabase($notifiable)
+    public function toArray($notifiable)
     {
-
-        // $user = User::find($this->comment->user_id);
-        // return [
-        //     'data' => $this->comment,
-        //     'url' => 'http://localhost:8000/study/' . $this->comment->study_id,
-        //     'message' => "New comment on your Study Plan",
-        //     'user' => $user,
-        //     'title' => 'New Comment',
-        //     'time' => $this->comment->created_at->diffForHumans()
-        // ];
+        return [
+            //
+        ];
     }
 }

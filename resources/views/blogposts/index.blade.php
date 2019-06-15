@@ -46,14 +46,14 @@
                                         <article class="row blog_item">
                                             <div class="col-md-3">
                                                 <div class="blog_info text-right">
-                                                    <div class="post_tag">
+                                                    {{-- <div class="post_tag">
                                                         <a href="#">Food,</a>
                                                         <a class="active" href="#">Technology,</a>
                                                         <a href="#">Politics,</a>
                                                         <a href="#">Lifestyle</a>
-                                                    </div>
+                                                    </div> --}}
                                                     <ul class="blog_meta list">
-                                                        <li><a href="#">{{$dat->user->name}}<i class="lnr lnr-user"></i></a></li>
+                                                        <li><a href="/profile/{{$dat->user->id}}">{{$dat->user->name}}<i class="lnr lnr-user"></i></a></li>
                                                         <li><a href="#">{{$dat->catagory->name}}<i class="fas fa-archive"></i></a></li>
                                                         <li><a href="#">{{date('F j, Y',strtotime($dat->created_at))}}<i class="lnr lnr-calendar-full"></i></a></li>
                                                         <li><a href="#">{{date('g:i A',strtotime($dat->created_at))}}<i class="far fa-clock"></i></a></li>
@@ -107,7 +107,7 @@
                                     <div class="br"></div>
                                 </aside>
 
-                                <aside class="single_sidebar_widget author_widget">
+                                {{-- <aside class="single_sidebar_widget author_widget">
                                     <img class="author_img rounded-circle" src="img/blog/author.png" alt="">
                                     <h4>Charlie Barber</h4>
                                     <p>Senior blog writer</p>
@@ -119,7 +119,7 @@
                                     </div>
                                     <p>Boot camps have its supporters andit sdetractors. Some people do not understand why you should have to spend money on boot camp when you can get. Boot camps have itssuppor ters andits detractors.</p>
                                     <div class="br"></div>
-                                </aside>
+                                </aside> --}}
                                 <aside class="single_sidebar_widget popular_post_widget">
                                     <h3 class="widget_title">Popular Posts</h3>
                                     @if (count($popular)>0)
@@ -139,10 +139,11 @@
                                     <div class="br"></div>
                                 </aside>
                                 <aside class="single_sidebar_widget ads_widget">
+                                    <h3>Advertiesments</h3>
                                     <a href="#"><img class="img-fluid" src="img/blog/add.jpg" alt=""></a>
                                     <div class="br"></div>
                                 </aside>
-                                <aside class="single_sidebar_widget post_category_widget">
+                                {{-- <aside class="single_sidebar_widget post_category_widget">
                                     <h4 class="widget_title">Post Catgories</h4>
                                     <ul class="list cat-list">
                                         @if (count($cat)>0)
@@ -163,9 +164,9 @@
                                         @endif
                                     </ul>
                                     <div class="br"></div>
-                                </aside>
+                                </aside> --}}
 
-                                <aside class="single-sidebar-widget tag_cloud_widget">
+                                {{-- <aside class="single-sidebar-widget tag_cloud_widget">
                                     <h4 class="widget_title">Tag Clouds</h4>
                                     <ul class="list">
                                         <li><a href="#">Technology</a></li>
@@ -181,7 +182,7 @@
                                         <li><a href="#">Lifestyle</a></li>
                                         <li><a href="#">Adventure</a></li>
                                     </ul>
-                                </aside>
+                                </aside> --}}
                             </div>
                         </div>
                     </div>

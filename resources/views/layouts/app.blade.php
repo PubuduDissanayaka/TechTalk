@@ -46,7 +46,7 @@
                 <!-- Logo -->
                 <!-- ============================================================== -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/">
+                    <a class="navbar-brand" href="/dashboard">
                         <!-- Logo icon -->
                         <b>
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
@@ -154,7 +154,7 @@
 
                         <!-- Messages -->
                         <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
+                        {{-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="mdi mdi-email"></i>
                                 <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
                             </a>
@@ -196,7 +196,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> --}}
                         <!-- ============================================================== -->
                         <!-- End Messages -->
                         <!-- ============================================================== -->
@@ -330,9 +330,12 @@
                         <li>
                             <a class="has-arrow waves-effect waves-light" href="/dashboard" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Dashboard </span></a>
                         </li>
-                        <li>
-                            <a class="has-arrow waves-effect waves-light" href="/news-feed" aria-expanded="false"><i class="fas fa-newspaper    "></i><span class="hide-menu">News Feeds </span></a>
-                        </li>
+                        @if ((Auth::user()->role_id == 1 || Auth::user()->role_id == 3))
+                            <li>
+                                <a class="has-arrow waves-effect waves-light" href="/news-feed" aria-expanded="false"><i class="fas fa-newspaper    "></i><span class="hide-menu">News Feeds </span></a>
+                            </li>
+                        @endif
+
                         <li> <a class="has-arrow waves-effect waves-light" href="#" aria-expanded="false"><i class="fas fa-blog"></i><span class="hide-menu">Blog Posts</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="/blog-posts" class="waves-effect waves-light">All Posts</a></li>
@@ -343,21 +346,27 @@
                             <a class="has-arrow waves-effect waves-light" href="#" aria-expanded="false"><i class="far fa-calendar-alt"></i><span class="hide-menu">Events</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="/events" class="waves-effect waves-light">All Events</a></li>
-                                <li><a href="/events/create" class="waves-effect waves-light">Create Event</a></li>
+                                @if ((Auth::user()->role_id == 1 || Auth::user()->role_id == 3 || Auth::user()->role_id == 5))
+                                    <li><a href="/events/create" class="waves-effect waves-light">Create Event</a></li>
+                                @endif
                             </ul>
                         </li>
                         <li>
                             <a class="has-arrow waves-effect waves-light" href="#" aria-expanded="false"><i class="fas fa-user-tie"></i><span class="hide-menu">Job Market</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="/vacancy" class="waves-effect waves-light">All Jobs</a></li>
-                                <li><a href="/vacancy/create" class="waves-effect waves-light">Create Vacancy</a></li>
+                                @if ((Auth::user()->role_id == 1 || Auth::user()->role_id == 4))
+                                    <li><a href="/vacancy/create" class="waves-effect waves-light">Create Vacancy</a></li>
+                                @endif
                             </ul>
                         </li>
                         <li>
                             <a class="has-arrow waves-effect waves-light" href="#" aria-expanded="false"><i class="fas fa-graduation-cap"></i><span class="hide-menu">Study Plans</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="/study" class="waves-effect waves-light">All Plans</a></li>
-                                <li><a href="/study/create" class="waves-effect waves-light">Create Program</a></li>
+                                @if ((Auth::user()->role_id == 1 || Auth::user()->role_id == 5))
+                                    <li><a href="/study/create" class="waves-effect waves-light">Create Program</a></li>
+                                @endif
                             </ul>
                         </li>
                         <li>
@@ -371,9 +380,9 @@
             <!-- Bottom points-->
             <div class="sidebar-footer">
                 <!-- item-->
-                <a href="" class="link" data-toggle="tooltip" title="Settings"><i class="ti-settings"></i></a>
+                <a href="/dashboard" class="link" data-toggle="tooltip" title="Dashboard"><i class="ti-settings"></i></a>
                 <!-- item-->
-                <a href="" class="link" data-toggle="tooltip" title="Email"><i class="mdi mdi-gmail"></i></a>
+                <a href="/profile/{{Auth::user()->id}}" class="link" data-toggle="tooltip" title="Account"><i class="far fa-user"></i></a>
                 <!-- item-->
                 <a class="link" data-toggle="tooltip" title="Logout" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="mdi mdi-power"></i></a>
                 <form id="logout-form" action="{{ route('logout') }}" method="post" style="display: none;">
@@ -396,44 +405,6 @@
             <!-- ============================================================== -->
             <div class="container-fluid">
                 <!-- ============================================================== -->
-                <!-- Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
-                {{-- <div class="row page-titles">
-                    <div class="col-md-5 col-8 align-self-center">
-                        <h3 class="text-themecolor">Dashboard 2</h3>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard2</li>
-                        </ol>
-                    </div>
-                    <div class="col-md-7 col-4 align-self-center">
-                        <div class="d-flex m-t-10 justify-content-end">
-                            <div class="d-flex m-r-20 m-l-10 hidden-md-down">
-                                <div class="chart-text m-r-10">
-                                    <h6 class="m-b-0"><small>THIS MONTH</small></h6>
-                                    <h4 class="m-t-0 text-info">$58,356</h4></div>
-                                <div class="spark-chart">
-                                    <div id="monthchart"></div>
-                                </div>
-                            </div>
-                            <div class="d-flex m-r-20 m-l-10 hidden-md-down">
-                                <div class="chart-text m-r-10">
-                                    <h6 class="m-b-0"><small>LAST MONTH</small></h6>
-                                    <h4 class="m-t-0 text-primary">$48,356</h4></div>
-                                <div class="spark-chart">
-                                    <div id="lastmonthchart"></div>
-                                </div>
-                            </div>
-                            <div class="">
-                                <button class="right-side-toggle waves-effect waves-light btn-success btn btn-circle btn-sm pull-right m-l-10"><i class="ti-settings text-white"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
-                <!-- ============================================================== -->
-                <!-- End Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
                 <main>
@@ -445,60 +416,6 @@
                 <!-- ============================================================== -->
                 <!-- Right sidebar -->
                 <!-- ============================================================== -->
-                <!-- .right-sidebar -->
-                <div class="right-sidebar">
-                    <div class="slimscrollright">
-                        <div class="rpanel-title"> Service Panel <span><i class="ti-close right-side-toggle"></i></span> </div>
-                        <div class="r-panel-body">
-                            <ul id="themecolors" class="m-t-20">
-                                <li><b>With Light sidebar</b></li>
-                                <li><a href="javascript:void(0)" data-theme="default" class="default-theme">1</a></li>
-                                <li><a href="javascript:void(0)" data-theme="green" class="green-theme">2</a></li>
-                                <li><a href="javascript:void(0)" data-theme="red" class="red-theme">3</a></li>
-                                <li><a href="javascript:void(0)" data-theme="blue" class="blue-theme working">4</a></li>
-                                <li><a href="javascript:void(0)" data-theme="purple" class="purple-theme">5</a></li>
-                                <li><a href="javascript:void(0)" data-theme="megna" class="megna-theme">6</a></li>
-                                <li class="d-block m-t-30"><b>With Dark sidebar</b></li>
-                                <li><a href="javascript:void(0)" data-theme="default-dark" class="default-dark-theme">7</a></li>
-                                <li><a href="javascript:void(0)" data-theme="green-dark" class="green-dark-theme">8</a></li>
-                                <li><a href="javascript:void(0)" data-theme="red-dark" class="red-dark-theme">9</a></li>
-                                <li><a href="javascript:void(0)" data-theme="blue-dark" class="blue-dark-theme">10</a></li>
-                                <li><a href="javascript:void(0)" data-theme="purple-dark" class="purple-dark-theme">11</a></li>
-                                <li><a href="javascript:void(0)" data-theme="megna-dark" class="megna-dark-theme ">12</a></li>
-                            </ul>
-                            <ul class="m-t-20 chatonline">
-                                <li><b>Chat option</b></li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/1.jpg" alt="user-img" class="img-circle"> <span>Varun Dhavan <small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/2.jpg" alt="user-img" class="img-circle"> <span>Genelia Deshmukh <small class="text-warning">Away</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/3.jpg" alt="user-img" class="img-circle"> <span>Ritesh Deshmukh <small class="text-danger">Busy</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/4.jpg" alt="user-img" class="img-circle"> <span>Arijit Sinh <small class="text-muted">Offline</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/5.jpg" alt="user-img" class="img-circle"> <span>Govinda Star <small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/6.jpg" alt="user-img" class="img-circle"> <span>John Abraham<small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/7.jpg" alt="user-img" class="img-circle"> <span>Hritik Roshan<small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/8.jpg" alt="user-img" class="img-circle"> <span>Pwandeep rajan <small class="text-success">online</small></span></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- ============================================================== -->
-                <!-- End Right sidebar -->
-                <!-- ============================================================== -->
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
@@ -506,7 +423,7 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer">
+            <footer class="footer" style="color:blueviolet; text-align:center">
                 © 2018 - TechTalk
             </footer>
             <!-- ============================================================== -->

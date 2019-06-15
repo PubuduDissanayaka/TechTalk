@@ -36,6 +36,8 @@ class UserProSkillController extends Controller
      */
     public function store(Request $request)
     {
+        if (Auth::user()->id == $request->user_id) {
+            # code...
         // validate data
         $this -> validate($request, array(
             'skill' => 'required',
@@ -61,6 +63,9 @@ class UserProSkillController extends Controller
         toastr()->success('Professional Skill Added successfully!');
         return redirect()->route('profile.show',$request->user_id);
         // dd($request);
+        }else {
+            return redirect()->back();
+        }
     }
 
     /**

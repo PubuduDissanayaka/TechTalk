@@ -9,6 +9,7 @@ use App\User;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
 use Notification;
+use Auth;
 use App\Notifications\NotifyNewEvent;
 use App\Notifications\NotifyNewEventDB;
 
@@ -62,7 +63,12 @@ class EventController extends Controller
      */
     public function create()
     {
-        return view('events.create');
+        if (Auth::user()->role_id == 1 || Auth::user()->role_id == 3 || Auth::user()->role_id == 5) {
+            return view('events.create');
+            # code...
+        }else{
+            return redirect()->back();
+        }
     }
 
     /**
@@ -73,60 +79,61 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
+        if (Auth::user()->role_id == 1 || Auth::user()->role_id == 3 || Auth::user()->role_id == 5) {
+            // validate data
+            $this -> validate($request, array(
+                'title' => 'required|max:255',
+                'description' => 'required',
+                'date' => 'required',
+                'start' => 'required',
+                'end' => 'required',
+                'addr' => 'required',
+                'lat' => 'required',
+                'lng' => 'required',
+                'user_id' => 'required',
+                'cover' => 'image'
 
+            ));
 
+            // dd($request);
+            // store data
+            $event = new Event;
 
-        // validate data
-        $this -> validate($request, array(
-            'title' => 'required|max:255',
-            'description' => 'required',
-            'date' => 'required',
-            'start' => 'required',
-            'end' => 'required',
-            'addr' => 'required',
-            'lat' => 'required',
-            'lng' => 'required',
-            'user_id' => 'required',
-            'cover' => 'image'
+            $event->title = $request->title;
+            $event->description = $request->description;
+            $event->date = $request->date;
+            $event->start = $request->start;
+            $event->end = $request->end;
+            $event->address = $request->addr;
+            $event->latitude = $request->lat;
+            $event->longtitude = $request->lng;
+            $event->user_id = $request->user_id;
 
-        ));
+            //cover image
+            if ($request->hasFile('cover')) {
+                $cover = $request->file('cover');
+                $filename = time(). '.' . $cover->getClientOriginalExtension();
+                $location = public_path('img/events/cover/' . $filename);
+                Image::make($cover)->resize(800,400)->save($location);
 
-        // dd($request);
-        // store data
-        $event = new Event;
+                $event->cover = $filename;
+            } else {
+                //
+            }
 
-        $event->title = $request->title;
-        $event->description = $request->description;
-        $event->date = $request->date;
-        $event->start = $request->start;
-        $event->end = $request->end;
-        $event->address = $request->addr;
-        $event->latitude = $request->lat;
-        $event->longtitude = $request->lng;
-        $event->user_id = $request->user_id;
+            $event->save();
 
-        //cover image
-        if ($request->hasFile('cover')) {
-            $cover = $request->file('cover');
-            $filename = time(). '.' . $cover->getClientOriginalExtension();
-            $location = public_path('img/events/cover/' . $filename);
-            Image::make($cover)->resize(800,400)->save($location);
+            // notifications
+            $users = User::where('id', '!=', auth()->user()->id)->get();
+            Notification::send($users, new NotifyNewEventDB($event)); //DB
+            Notification::route('mail', $users)->notify(new NotifyNewEvent($event)); //email
 
-            $event->cover = $filename;
-        } else {
-            //
+            // redirect
+            toastr()->success('Event has been published successfully!');
+            return redirect()->route('events.show',['id' => $event->id]);
+        }else{
+            return redirect()->back();
         }
-
-        $event->save();
-
-        // notifications
-        $users = User::where('id', '!=', auth()->user()->id)->get();
-        Notification::send($users, new NotifyNewEventDB($event)); //DB
-        Notification::route('mail', $users)->notify(new NotifyNewEvent($event)); //email
-
-        // redirect
-        toastr()->success('Event has been published successfully!');
-        return redirect()->route('events.show',['id' => $event->id]);
     }
 
     /**
@@ -150,8 +157,12 @@ class EventController extends Controller
      */
     public function edit($id)
     {
-        $event = Event::find($id);
-        return view('events.edit')->with('event',$event);
+        if (Auth::user()->id == 1 || Auth::user()->id == 3 || Auth::user()->id == 5) {
+            $event = Event::find($id);
+            return view('events.edit')->with('event',$event);
+        }else {
+            return redirect()->back();
+        }
     }
 
     /**
@@ -163,59 +174,63 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // validate data
-        $this -> validate($request, array(
-            'title' => 'required|max:255',
-            'description' => 'required',
-            'date' => 'required',
-            'start' => 'required',
-            'end' => 'required',
-            'addr' => 'required',
-            'lat' => 'required',
-            'lng' => 'required',
-            'cover' => 'image'
+        if (Auth::user()->role_id == $request->user_id) {
+            // validate data
+            $this -> validate($request, array(
+                'title' => 'required|max:255',
+                'description' => 'required',
+                'date' => 'required',
+                'start' => 'required',
+                'end' => 'required',
+                'addr' => 'required',
+                'lat' => 'required',
+                'lng' => 'required',
+                'cover' => 'image'
 
-        ));
-
-
-        // store data
-        $event = Event::find($id);
-
-        $event->title = $request->title;
-        $event->description = $request->description;
-        $event->date = $request->date;
-        $event->start = $request->start;
-        $event->end = $request->end;
-        $event->address = $request->addr;
-        $event->latitude = $request->lat;
-        $event->longtitude = $request->lng;
-
-        if ($request->hasFile('cover')) {
-            //add new photo
-            $oldFilename = $event->cover;
-            $cover = $request->file('cover');
-            $filename = time(). '.' . $cover->getClientOriginalExtension();
-            $location = public_path('img/events/cover/' . $filename);
-            Image::make($cover)->resize(800,400)->save($location);
+            ));
 
 
-            //update database
-            $event->cover = $filename;
+            // store data
+            $event = Event::find($id);
 
-            //delete old photo
-            Storage::delete('public/img/events/cover/'.$oldFilename);
+            $event->title = $request->title;
+            $event->description = $request->description;
+            $event->date = $request->date;
+            $event->start = $request->start;
+            $event->end = $request->end;
+            $event->address = $request->addr;
+            $event->latitude = $request->lat;
+            $event->longtitude = $request->lng;
 
+            if ($request->hasFile('cover')) {
+                //add new photo
+                $oldFilename = $event->cover;
+                $cover = $request->file('cover');
+                $filename = time(). '.' . $cover->getClientOriginalExtension();
+                $location = public_path('img/events/cover/' . $filename);
+                Image::make($cover)->resize(800,400)->save($location);
+
+
+                //update database
+                $event->cover = $filename;
+
+                //delete old photo
+                Storage::delete('public/img/events/cover/'.$oldFilename);
+
+                $event->save();
+            } else {
+
+            }
+
+
+            // redirect
             $event->save();
-        } else {
-            //
+            //dd($event);
+            toastr()->success('Event has been Updated successfully!');
+            return redirect()->route('events.show',['id' => $event->id]);
+        }else{
+            return redirect()->back();
         }
-
-
-        // redirect
-        $event->save();
-        //dd($event);
-        toastr()->success('Event has been Updated successfully!');
-        return redirect()->route('events.show',['id' => $event->id]);
     }
 
     /**
@@ -226,11 +241,15 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        $event = Event::find($id);
-        $event -> delete();
+        if (Auth::user()->id == 1 || Auth::user()->id == 3 || Auth::user()->id == 5) {
+            $event = Event::find($id);
+            $event -> delete();
 
-        $event = Event::all();
-        toastr()->success('Event Cancelled');
-        return redirect('/events')->with('event',$event);
+            $event = Event::all();
+            toastr()->success('Event Cancelled');
+            return redirect('/events')->with('event',$event);
+        }else {
+            return redirect()->back();
+        }
     }
 }

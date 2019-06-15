@@ -2,7 +2,7 @@
 {{-- <img class="d-block w-100 img-fluid bcover" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?cs=srgb&dl=beach-exotic-holiday-248797.jpg&fm=jpg" alt="First slide"> --}}
 @section('css')
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="{{asset('css/home/bootstrap.css')}}">
+  {{-- <link rel="stylesheet" href="{{asset('css/home/bootstrap.css')}}"> --}}
   <link rel="stylesheet" href="{{asset('vendor/home/linericon/style.css')}}">
   <link rel="stylesheet" href="{{asset('css/home/font-awesome.min.css')}}">
   <link rel="stylesheet" href="{{asset('vendor/home/owl-carousel/owl.carousel.min.css')}}">
@@ -46,12 +46,12 @@
                                 </div>
                                 <div class="col-lg-3 col-md-3">
                                     <div class="blog_info text-right">
-                                        <div class="post_tag">
+                                        {{-- <div class="post_tag">
                                             <a href="#">Food,</a>
                                             <a class="active" href="#">Technology,</a>
                                             <a href="#">Politics,</a>
                                             <a href="#">Lifestyle</a>
-                                        </div>
+                                        </div> --}}
                                         <ul class="blog_meta list">
                                             <li><a href="#">{{$blogpost->user->name}}<i class="lnr lnr-user"></i></a></li>
                                             <li><a href="#">{{$blogpost->catagory->name}}<i class="fas fa-archive"></i></a></li>
@@ -60,17 +60,17 @@
                                             <li><a href="#">{{$blogpost->views}} Views<i class="lnr lnr-eye"></i></a></li>
                                             <li><a href="#">{{$blogpost->comments->count()}} Comments<i class="lnr lnr-bubble"></i></a></li>
                                         </ul>
-                                        <ul class="social-links">
+                                        {{-- <ul class="social-links">
                                             <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                                             <li><a href="#"><i class="fa fa-twitter"></i></a></li>
                                             <li><a href="#"><i class="fa fa-github"></i></a></li>
                                             <li><a href="#"><i class="fa fa-behance"></i></a></li>
-                                        </ul>
+                                        </ul> --}}
                                     </div>
                                 </div>
                                 <div class="col-lg-9 col-md-9 blog_details">
                                     <h2>{{$blogpost->title}}</h2>
-                                    <p class="excert">
+                                    <p class="excert" style="text-align:justify">
                                         {!!$blogpost->body!!}
                                     </p>
 
@@ -78,7 +78,9 @@
                             </div>
                             <hr>
                             <a href="/blog-posts" class="btn btn-primary"><i class="fas fa-less-than"></i> Go Back</a>
-                            <a href="/blog-posts/{{$blogpost->id}}/edit" class="btn btn-warning pull-right">Edit Blog Post</a>
+                            @if (Auth::user()->id == $blogpost->user->id)
+                                <a href="/blog-posts/{{$blogpost->id}}/edit" class="btn btn-warning pull-right">Edit Blog Post</a>
+                            @endif
 
                             {{-- comments --}}
                             <div class="comments-area">
@@ -137,7 +139,7 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="blog_right_sidebar">
-                                <aside class="single_sidebar_widget author_widget">
+                                {{-- <aside class="single_sidebar_widget author_widget">
                                     <img class="author_img rounded-circle" src="img/blog/author.png" alt="">
                                     <h4>Charlie Barber</h4>
                                     <p>Senior blog writer</p>
@@ -149,7 +151,7 @@
                                     </div>
                                     <p>Boot camps have its supporters andit sdetractors. Some people do not understand why you should have to spend money on boot camp when you can get. Boot camps have itssuppor ters andits detractors.</p>
                                     <div class="br"></div>
-                                </aside>
+                                </aside> --}}
                                 <aside class="single_sidebar_widget popular_post_widget">
                                     <h3 class="widget_title">Popular Posts</h3>
                                     @if (count($popular)>0)
@@ -169,10 +171,11 @@
                                     <div class="br"></div>
                                 </aside>
                                 <aside class="single_sidebar_widget ads_widget">
+                                    <h3>Advertiesments</h3>
                                     <a href="#"><img class="img-fluid" src="img/blog/add.jpg" alt=""></a>
                                     <div class="br"></div>
                                 </aside>
-                                <aside class="single_sidebar_widget post_category_widget">
+                                {{-- <aside class="single_sidebar_widget post_category_widget">
                                     <h4 class="widget_title">Post Catgories</h4>
                                     <ul class="list cat-list">
                                             @if (count($cat)>0)
@@ -180,7 +183,6 @@
                                                 <li>
                                                     <a href="/blog-posts?search={{$cata->name}}" class="d-flex justify-content-between">
                                                         <p>{{$cata->name}}</p>
-                                                        {{-- <p>{{count($cata)}}}</p> --}}
                                                     </a>
                                                 </li>
                                             @endforeach
@@ -193,9 +195,9 @@
                                         @endif
                                     </ul>
                                     <div class="br"></div>
-                                </aside>
+                                </aside> --}}
 
-                                <aside class="single-sidebar-widget tag_cloud_widget">
+                                {{-- <aside class="single-sidebar-widget tag_cloud_widget">
                                     <h4 class="widget_title">Tag Clouds</h4>
                                     <ul class="list">
                                         @foreach ($tags as $tag)
@@ -204,7 +206,7 @@
                                         @endforeach
 
                                     </ul>
-                                </aside>
+                                </aside> --}}
                             </div>
                         </div>
                     </div>
@@ -231,11 +233,11 @@
 
 @section('script')
     	<!-- Optional JavaScript -->
-	<script src="{{asset('vendor/home/nice-select/js/jquery.nice-select.min.js')}}"></script>
+	{{-- <script src="{{asset('vendor/home/nice-select/js/jquery.nice-select.min.js')}}"></script>
 	<script src="{{asset('vendor/home/isotope/imagesloaded.pkgd.min.js')}}"></script>
 	<script src="{{asset('vendor/home/isotope/isotope-min.js')}}"></script>
-	<script src="{{asset('vendor/home/owl-carousel/owl.carousel.min.js')}}"></script>
-	<script src="{{asset('vendor/home/counter-up/jquery.waypoints.min.js')}}"></script>
-	<script src="{{asset('vendor/home/counter-up/jquery.counterup.min.js')}}"></script>
-	<script src="{{asset('js/home/theme.js')}}"></script>
+	<script src="{{asset('vendor/home/owl-carousel/owl.carousel.min.js')}}"></script> --}}
+	{{-- <script src="{{asset('vendor/home/counter-up/jquery.waypoints.min.js')}}"></script>
+	<script src="{{asset('vendor/home/counter-up/jquery.counterup.min.js')}}"></script> --}}
+	{{-- <script src="{{asset('js/home/theme.js')}}"></script> --}}
 @endsection

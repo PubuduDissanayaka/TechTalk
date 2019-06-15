@@ -38,7 +38,7 @@ $(document).on('ready', function(){
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="vacjumboshow jumbotron">
-                                    <h1 class="display-4">
+                                    <h1 class="display-4" style="color:white;" >
                                         {{$study->name}}
 
                                     </h1>
@@ -291,7 +291,7 @@ $(document).on('ready', function(){
 
                             <div class="row">
 
-                            <input type="submit" class="btn btn-success d-inline col-md-6" value="Send CV">
+                            <input type="submit" class="btn btn-success d-inline col-md-6" value="Send Application">
 							<button type="button" class="btn btn-secondary d-inline-block col-md-6" data-dismiss="modal">
 								Close
 							</button>

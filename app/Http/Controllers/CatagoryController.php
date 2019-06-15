@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Catagory;
 use Illuminate\Http\Request;
 use LaraFlash;
+use Auth;
 
 class CatagoryController extends Controller
 {
@@ -21,8 +22,10 @@ class CatagoryController extends Controller
      */
     public function index()
     {
-        $data = Catagory::all();
-        return view ('catagory.index')->with('data',$data);
+        if (Auth::user()->role_id == 1) {
+            $data = Catagory::all();
+            return view ('catagory.index')->with('data',$data);
+        }
     }
 
     /**
@@ -43,22 +46,24 @@ class CatagoryController extends Controller
      */
     public function store(Request $request)
     {
-        // validate data
-        $this -> validate($request, array(
-            'name' => 'required|max:255',
-            'description' => 'required'
-        ));
-        // store data
-        $cat = new Catagory;
+        if (Auth::user()->role_id == 1) {
+            // validate data
+            $this -> validate($request, array(
+                'name' => 'required|max:255',
+                'description' => 'required'
+            ));
+            // store data
+            $cat = new Catagory;
 
-        $cat->name = $request->name;
-        $cat->description = $request->description;
+            $cat->name = $request->name;
+            $cat->description = $request->description;
 
-        $cat->save();
-        // redirect
-        $data = Catagory::all();
-        toastr()->success('Catagory has been saved successfully!');
-        return redirect()->route('catagories.index');
+            $cat->save();
+            // redirect
+            $data = Catagory::all();
+            toastr()->success('Catagory has been saved successfully!');
+            return redirect()->route('catagories.index');
+        }
     }
 
     /**

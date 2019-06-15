@@ -44,7 +44,7 @@ class BlogPostController extends Controller
         $perPage = 10;
         $users = User::all();
 
-        $blogcount = count($user->blogpost);
+        // $blogcount = count($user->blogpost);
 
         if (!empty($keyword)) {
             $data = BlogPost::where('title', 'LIKE', "%$keyword%")
@@ -165,8 +165,12 @@ class BlogPostController extends Controller
     {
 
         $blogpost = BlogPost::find($id);
+        if (Auth::user()->id == $blogPost->user->id) {
         $cat = DB::table('catagories')->limit(5)->get();
         return view('blogposts.edit')->with('blogpost',$blogpost)->with('cat', $cat);
+        }else{
+            return redirect()->back();
+        }
     }
 
     /**
@@ -180,6 +184,8 @@ class BlogPostController extends Controller
     {
         // dd($request);
         // validate data
+        if (Auth::user()->id == $request->user_id) {
+            # code...
         $this -> validate($request, array(
             'title' => 'required|max:255',
             'description' => 'required',
@@ -222,6 +228,9 @@ class BlogPostController extends Controller
         // redirect
         toastr()->success('Blog Post has been Updated successfully!');
         return redirect()->route('blog-posts.show',$blogpost->id);
+        }else{
+            return redirect()->back();
+        }
     }
 
     /**

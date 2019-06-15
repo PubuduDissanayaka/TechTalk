@@ -24,10 +24,9 @@
                 <div class="row">
                     <div class="col-md-12 container-fluid">
                         <div class="jumbotron studyjumbo">
-                            <h1 class="display-4">Study Programmes</h1>
-                            <p class="lead">Subtitle</p>
+                            <h1 class="display-4" style="color:white; text-align:center">Study Programmes</h1>
+                            <p class="lead" style="text-align:center">Access courses from leading institutions worldwide. Gain new skills and earn a certificate of completion.</p>
                             <hr class="my-4">
-                            <p>Content</p>
                         </div>
                     </div>
                 </div>

@@ -86,6 +86,9 @@ Route::resource('userrating', 'UserRatingController');
 Route::get('/search', 'SearchController@index')->name('search.index');
 Route::post('/search/action', 'SearchController@action')->name('search.action');
 
+
+Route::post('/news-feed/like', 'NewsFeedController@like');
 Route::resource('addskills', 'UserProSkillController');
+Route::resource('sendmessage', 'SendMsgController');
 
 

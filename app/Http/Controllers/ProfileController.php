@@ -170,6 +170,8 @@ class ProfileController extends Controller
     }
 
     public function proPicUpload(Request $request){
+
+        if (Auth::user()->id == $request->user_id) {
         // validate data
         $this -> validate($request, array(
             'user_id' => 'required',
@@ -200,5 +202,8 @@ class ProfileController extends Controller
         $friends = $user->friends();
         // return view('users.profile', compact('friends','user'));
         return redirect('/profile/'. $request->user_id);
+        }else {
+            return redirect()->back();
+        }
     }
 }

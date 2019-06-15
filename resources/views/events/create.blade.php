@@ -59,9 +59,9 @@
                                 <div class="form-group">
                                     <label for="">Start Time</label>
 
-                                        <div class="input-group clockpicker " data-placement="bottom" data-align="top" data-autoclose="true">
+                                        {{-- <div class="input-group clockpicker " data-placement="bottom" data-align="top" data-autoclose="true">
                                             <input type="text" class="form-control" value="13:14" id="single-input"> <span class="input-group-addon"> <span class="fa fa-clock-o"></span> </span>
-                                        </div>
+                                        </div> --}}
                                     <input type="time" class="form-control form-control-sm" name="start" id="" aria-describedby="helpId" placeholder="" required>
                                     <small id="helpId" class="form-text text-muted">Event Starting Time</small>
                                 </div>

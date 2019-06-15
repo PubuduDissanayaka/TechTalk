@@ -16,11 +16,11 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="jumbotron vacjumbo">
-                    <h2>
+                    <h2 class="display-3" style="color:white">
                         TechTalk Job Market!
                     </h2>
                     <p>
-                        This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
+                        Looking for job vacancies in Sri Lanka ? TechTalk is the largest online marketplace in Sri Lanka and there are many jobs vacanies listed daily from across the Sri lanka in IT Industry.
                     </p>
                     <p>
                         @if ((Auth::user()->role_id) == 4 | (Auth::user()->role_id) == 5 | (Auth::user()->role_id) == 1 )
