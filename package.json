@@ -30,7 +30,7 @@
         "croppie": "^2.6.4",
         "emoji-mart-vue": "^2.6.6",
         "font-awesome": "^4.7.0",
-        "jquery-ui": "^1.12.1",
+        "jquery-ui": "^1.13.2",
         "laravel-echo": "^1.5.3",
         "moment": "^2.24.0",
         "pusher-js": "^4.4.0",
